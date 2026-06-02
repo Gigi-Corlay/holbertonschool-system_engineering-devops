@@ -32,6 +32,8 @@
 │ PRIMARY DATABASE (MySQL)     │ ───────────► │ REPLICA DATABASE (MySQL)     │
 │ (Master - Read/Write)        │  Replication │ (Slave - Read Only)          │
 └──────────────────────────────┘              └──────────────────────────────┘
+```
+
 ```mermaid
 graph TD
     User([USER / BROWSER]) -->|"1. Requests www.foobar.com"| DNS[DNS SERVER]
