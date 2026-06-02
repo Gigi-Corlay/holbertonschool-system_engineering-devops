@@ -1,12 +1,12 @@
 # 0. Simple Web Stack Design
 
 ## Diagram
-
+```text
 [ USER / BROWSER ] 
        │
-       │ 1. Requests www.foobar.com
+       │ 1. Requests [www.foobar.com](https://www.foobar.com)
        ▼
-[ DNS SERVER ] ─── (Translates www.foobar.com to IP 8.8.8.8)
+[ DNS SERVER ] ─── (Translates [www.foobar.com](https://www.foobar.com) to IP 8.8.8.8)
        │
        │ 2. Sends HTTP/HTTPS Request (via TCP/IP)
        ▼
@@ -31,6 +31,7 @@
 │   │  [ DATABASE ] (MySQL)                               │   │
 │   └─────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
+```
 
 ## Specifics & Component Roles
 
