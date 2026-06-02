@@ -34,6 +34,41 @@
 └──────────────────────────────┘              └──────────────────────────────┘
 ```
 
+```mermaid
+graph TD
+    User([USER / BROWSER]) -->|1. Requests [www.foobar.com](https://www.foobar.com)| DNS[DNS SERVER]
+    DNS -->|2. Maps domain to Load Balancer IP| User
+    User -->|3. Sends HTTP Requests| LB[LOAD BALANCER HAProxy]
+
+    subgraph Server_Node_1 [Server Node 1]
+        Nginx1[WEB SERVER Nginx] -->|Local Proxy| App1[APPLICATION SERVER]
+        App1 -->|Executes Code| Files1[APPLICATION FILES Codebase]
+    end
+
+    subgraph Server_Node_2 [Server Node 2]
+        Nginx2[WEB SERVER Nginx] -->|Local Proxy| App2[APPLICATION SERVER]
+        App2 -->|Executes Code| Files2[APPLICATION FILES Codebase]
+    end
+
+    LB -->|4. Distributes Traffic Round Robin| Nginx1
+    LB -->|4. Distributes Traffic Round Robin| Nginx2
+
+    subgraph Database_Cluster [Database MySQL Cluster]
+        DB_Primary[(PRIMARY DATABASE Read/Write)]
+        DB_Replica[(REPLICA DATABASE Read Only)]
+        DB_Primary -->|Asynchronous Replication| DB_Replica
+    end
+
+    App1 -->|5. Write Operations| DB_Primary
+    App1 -->|6. Read Operations| DB_Replica
+    App2 -->|5. Write Operations| DB_Primary
+    App2 -->|6. Read Operations| DB_Replica
+
+    style LB fill:#f9f,stroke:#333,stroke-width:2px
+    style DB_Primary fill:#bbf,stroke:#333,stroke-width:2px
+    style DB_Replica fill:#ddf,stroke:#333,stroke-width:2px
+```
+
 # Specifics & Component Roles
 
 ## Why Additional Elements Were Added
