@@ -32,11 +32,9 @@
 │ PRIMARY DATABASE (MySQL)     │ ───────────► │ REPLICA DATABASE (MySQL)     │
 │ (Master - Read/Write)        │  Replication │ (Slave - Read Only)          │
 └──────────────────────────────┘              └──────────────────────────────┘
-```
-
 ```mermaid
 graph TD
-    User([USER / BROWSER]) -->|1. Requests [www.foobar.com](https://www.foobar.com)| DNS[DNS SERVER]
+    User([USER / BROWSER]) -->|"1. Requests www.foobar.com"| DNS[DNS SERVER]
     DNS -->|2. Maps domain to Load Balancer IP| User
     User -->|3. Sends HTTP Requests| LB[LOAD BALANCER HAProxy]
 
