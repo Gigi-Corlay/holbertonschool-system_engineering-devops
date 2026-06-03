@@ -1,4 +1,4 @@
-# 3. Scale Up Web Infrastructure
+# Scale Up Web Infrastructure
 
 ## Overview
 
