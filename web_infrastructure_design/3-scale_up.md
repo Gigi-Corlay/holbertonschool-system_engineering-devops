@@ -1,21 +1,32 @@
-# Scale Up Web Infrastructure
+# 3. Scale Up Web Infrastructure
 
 ## Overview
 
-This infrastructure is an improved version of a standard web stack designed to handle higher traffic, improve scalability, and enforce a strict separation of components.
+This infrastructure is an improved and scaled version of a standard web stack. It is designed to handle higher traffic, improve system reliability, and ensure better separation of responsibilities between components.
 
-It introduces dedicated servers for each layer of the system and a load balancer cluster to ensure high availability and fault tolerance.
-
-The goal is to improve performance, maintainability, and reliability.
+The main improvements include splitting each layer of the system onto dedicated servers and introducing a load balancer cluster to ensure high availability and fault tolerance.
 
 ---
 
-## Key Concept: Application Server vs Web Server
+## Application Server vs Web Server
 
-- The **web server (Nginx)** handles HTTP requests, serves static content, and acts as a reverse proxy.
-- The **application server** executes business logic and generates dynamic content.
+### Web Server (Nginx)
 
-Separating these two components improves scalability and allows each layer to be optimized independently.
+The web server is responsible for:
+- Handling incoming HTTP/HTTPS requests from users
+- Serving static content (HTML, CSS, images, JavaScript)
+- Acting as a reverse proxy for dynamic requests
+
+### Application Server
+
+The application server is responsible for:
+- Executing the business logic of the application
+- Processing dynamic requests
+- Communicating with the database server to retrieve or store data
+
+### Key Difference
+
+The web server handles client requests and routing, while the application server processes the actual application logic.
 
 ---
 
@@ -23,80 +34,70 @@ Separating these two components improves scalability and allows each layer to be
 
 ### 1. Load Balancer Cluster (HAProxy)
 
-- Two HAProxy load balancers are configured in a cluster.
-- They distribute incoming traffic across web servers.
-- The cluster operates in **active-active or active-passive mode** depending on configuration.
+- Two HAProxy load balancers are deployed in a cluster configuration.
+- They distribute incoming traffic across backend servers.
 
 **Why add it?**
-To eliminate a single point of failure and ensure high availability of the system.
+To ensure high availability and prevent a single point of failure. If one load balancer fails, the second one continues handling traffic.
 
 ---
 
-### 2. Web Server (Nginx) - Dedicated Server
+### 2. Web Server (Nginx)
 
-- A dedicated server running Nginx.
-- Handles incoming HTTP/HTTPS requests.
-- Serves static content and forwards dynamic requests to the application server.
+- Dedicated server running Nginx.
+- Handles HTTP/HTTPS requests and forwards dynamic requests to the application server.
 
 **Why add it?**
-To isolate request handling and improve performance under high traffic.
+To isolate HTTP request handling and improve performance and scalability under heavy traffic.
 
 ---
 
-### 3. Application Server - Dedicated Server
+### 3. Application Server
 
-- A dedicated server responsible for executing application logic.
-- Processes dynamic requests coming from the web server.
-- Communicates with the database server.
+- Dedicated server responsible for running the application logic.
+- Processes dynamic requests and interacts with the database server.
 
 **Why add it?**
-To decouple business logic from HTTP handling and improve scalability.
+To separate business logic from web serving, improving scalability, maintainability, and performance.
 
 ---
 
-### 4. Database Server (MySQL) - Dedicated Server
+### 4. Database Server (MySQL)
 
-- A dedicated server used for data storage.
+- Dedicated server for data storage and management.
 - Handles all read and write operations.
 
 **Why add it?**
-To isolate data management, improve performance, and enhance security.
+To isolate data storage, improve performance, enhance security, and allow independent scaling of the database layer.
 
 ---
 
-## Architecture Design
+## Architecture Summary
 
-- 1 dedicated server for the web layer (Nginx)
-- 1 dedicated server for the application layer
-- 1 dedicated server for the database layer
+This infrastructure is composed of:
+
+- 1 server for the web layer (Nginx)
+- 1 server for the application layer
+- 1 server for the database layer
 - 2 HAProxy load balancers configured as a cluster
 
-Each component is isolated on its own server to improve scalability and fault isolation.
+Each component is deployed on a dedicated server to ensure proper separation of concerns.
 
 ---
 
-## Load Balancer Cluster Role
+## Benefits of This Architecture
 
-The HAProxy cluster provides:
-
-- High availability (failover support if one load balancer fails)
-- Load distribution across backend servers
-- Improved system resilience
-
----
-
-## Why This Architecture is Better
-
-- Clear separation of concerns (web, application, database)
-- Independent scaling of each layer
-- Improved reliability and uptime
-- Easier maintenance and deployment
+- **High Availability:** Load balancer cluster prevents single point of failure
+- **Scalability:** Each layer can be scaled independently
+- **Maintainability:** Clear separation between components
+- **Reliability:** Reduced risk of system-wide failure
+- **Performance:** Dedicated resources for each service
 
 ---
 
 ## Limitations
 
 - Increased infrastructure complexity
-- Higher operational cost
-- Requires synchronization between multiple servers
-- More difficult debugging compared to a monolithic system
+- Higher cost due to multiple servers
+- Requires proper synchronization between components
+- More difficult to manage than a monolithic architecture
