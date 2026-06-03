@@ -114,4 +114,7 @@ This HAProxy setup is operating in an **Active-Active** configuration.
 
 * **No Monitoring:**
     - There are no metric collection or alerting tools installed (such as Prometheus, Grafana, or Nagios). If a system resource peaks or a service fails secretly, the engineering team has no visibility into the infrastructure health until users complain.
+<<<<<<< HEAD
     
+=======
+>>>>>>> 1b360d4 (Add secured and monitored web infrastructure design)
